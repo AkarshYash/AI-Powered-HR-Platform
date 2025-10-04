@@ -1,0 +1,2612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IntelliHire Ultimate Enterprise | AI-Powered HR Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --info: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --background: #ffffff;
+            --surface: #f8f9fa;
+            --text: #212529;
+            --text-muted: #6c757d;
+            --border: #dee2e6;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --glass: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.18);
+        }
+
+        .dark-mode {
+            --primary: #4cc9f0;
+            --secondary: #4361ee;
+            --success: #4ade80;
+            --danger: #f87171;
+            --warning: #fbbf24;
+            --info: #60a5fa;
+            --light: #1f2937;
+            --dark: #f9fafb;
+            --background: #111827;
+            --surface: #1f2937;
+            --text: #f9fafb;
+            --text-muted: #9ca3af;
+            --border: #374151;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --glass: rgba(30, 41, 59, 0.5);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: var(--surface);
+            box-shadow: 0 4px 6px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .theme-toggle:hover {
+            background: var(--glass);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .avatar-small {
+            width: 30px;
+            height: 30px;
+            font-size: 0.8rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: var(--surface);
+            padding: 20px 0;
+            box-shadow: 2px 0 5px var(--shadow);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-item {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            color: var(--text);
+            text-decoration: none;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-link:hover, .sidebar-link.active {
+            background: var(--glass);
+            border-left-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .sidebar-link i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Dashboard Content */
+        .dashboard {
+            flex: 1;
+            padding: 30px;
+            background: var(--background);
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .dashboard-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-small {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        /* Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .card.glass {
+            background: var(--glass);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: white;
+        }
+
+        .card-icon-info {
+            background: var(--info);
+        }
+
+        .card-icon-success {
+            background: var(--success);
+        }
+
+        .card-icon-warning {
+            background: var(--warning);
+        }
+
+        .card-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .card-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Tables */
+        .table-container {
+            background: var(--surface);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--primary);
+            color: white;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tbody tr:hover {
+            background: var(--glass);
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .dark-mode .status-success {
+            background: #064e3b;
+            color: #a7f3d0;
+        }
+
+        .status-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .dark-mode .status-warning {
+            background: #78350f;
+            color: #fcd34d;
+        }
+
+        .status-danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .dark-mode .status-danger {
+            background: #7f1d1d;
+            color: #fca5a5;
+        }
+
+        /* Star Rating */
+        .star-rating {
+            color: #fbbf24;
+        }
+
+        .user-with-avatar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Charts */
+        .charts-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .chart-card {
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px var(--shadow);
+        }
+
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* AI Chatbot */
+        .chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chatbot-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px var(--shadow);
+            border: none;
+        }
+
+        .chatbot-window {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 350px;
+            height: 450px;
+            background: var(--surface);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px var(--shadow);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chatbot-header {
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-title {
+            font-weight: 600;
+        }
+
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .chatbot-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+        }
+
+        .message-bot {
+            background: var(--light);
+            color: var(--text);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .dark-mode .message-bot {
+            background: var(--dark);
+        }
+
+        .message-user {
+            background: var(--primary);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .chatbot-input {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        .chatbot-input button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        /* Role-specific sections */
+        .role-section {
+            display: none;
+        }
+
+        .active-section {
+            display: block;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Login Page */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        .login-card {
+            background: var(--surface);
+            border-radius: 15px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 25px var(--shadow);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .login-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .login-subtitle {
+            color: var(--text-muted);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .role-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .role-option {
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .role-option:hover {
+            border-color: var(--primary);
+        }
+
+        .role-option.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Text utilities */
+        .text-muted {
+            color: var(--text-muted);
+        }
+
+        .text-small {
+            font-size: 1rem;
+        }
+
+        .text-xsmall {
+            font-size: 0.8rem;
+        }
+
+        /* Focus styles for accessibility */
+        button:focus, 
+        input:focus, 
+        .role-option:focus,
+        .sidebar-link:focus,
+        .nav-links a:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* Chat System */
+        .chat-system {
+            display: flex;
+            height: 600px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .chat-contacts {
+            width: 300px;
+            border-right: 1px solid var(--border);
+            background: var(--surface);
+            overflow-y: auto;
+        }
+
+        .chat-contact {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-contact:hover, .chat-contact.active {
+            background: var(--glass);
+        }
+
+        .chat-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chat-input-area {
+            padding: 15px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        .chat-send-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* Job Cards */
+        .jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .job-card {
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .job-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .job-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .job-company {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .job-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .job-tag {
+            background: var(--glass);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        .job-description {
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        /* Attendance System */
+        .attendance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .attendance-card {
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px var(--shadow);
+        }
+
+        .attendance-date {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .attendance-status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .attendance-present {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .attendance-absent {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Calendar */
+        .calendar-container {
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px var(--shadow);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-day {
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        .calendar-date {
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .calendar-date:hover {
+            background: var(--glass);
+        }
+
+        .calendar-date.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .calendar-date.has-event {
+            position: relative;
+        }
+
+        .calendar-date.has-event::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 5px;
+            height: 5px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        /* Progress bars */
+        .progress-bar {
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        .progress-fill-75 {
+            width: 75%;
+        }
+
+        .progress-fill-60 {
+            width: 60%;
+        }
+
+        .progress-fill-85 {
+            width: 85%;
+        }
+
+        /* Form layout utilities */
+        .form-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Margin utilities */
+        .mt-15 {
+            margin-top: 15px;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 70px;
+            }
+            .sidebar-link span {
+                display: none;
+            }
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+            .chat-system {
+                flex-direction: column;
+                height: 700px;
+            }
+            .chat-contacts {
+                width: 100%;
+                height: 200px;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .dashboard-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .chatbot-window {
+                width: 300px;
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                margin: 20px;
+                padding: 30px 20px;
+            }
+            .role-selector {
+                grid-template-columns: 1fr;
+            }
+            .chatbot-window {
+                width: calc(100vw - 40px);
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo">
+                    <i class="fas fa-brain" aria-hidden="true"></i> IntelliHire
+                </div>
+                <h1 class="login-title">Welcome Back</h1>
+                <p class="login-subtitle">Sign in to your account</p>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Select Role</label>
+                    <div class="role-selector">
+                        <div class="role-option" data-role="candidate" tabindex="0" role="button">Candidate</div>
+                        <div class="role-option" data-role="employee" tabindex="0" role="button">Employee</div>
+                        <div class="role-option" data-role="hr" tabindex="0" role="button">HR Admin</div>
+                        <div class="role-option" data-role="ceo" tabindex="0" role="button">CEO</div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="app" class="hidden">
+        <header>
+            <div class="container">
+                <div class="navbar">
+                    <div class="logo">
+                        <i class="fas fa-brain" aria-hidden="true"></i>
+                        <span>IntelliHire Ultimate</span>
+                    </div>
+                    <div class="nav-links">
+                        <a href="#" class="active" data-section="dashboard">Dashboard</a>
+                        <a href="#" data-section="applicants">Applicants</a>
+                        <a href="#" data-section="employees">Employees</a>
+                        <a href="#" data-section="performance">Performance</a>
+                        <a href="#" data-section="analytics">Analytics</a>
+                        <a href="#" data-section="recruitment">Recruitment</a>
+                        <a href="#" data-section="calendar">Calendar</a>
+                        <a href="#" data-section="reports">Reports</a>
+                        <a href="#" data-section="settings">Settings</a>
+                        <a href="#" data-section="chat">Messages</a>
+                    </div>
+                    <div class="nav-actions">
+                        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                            <i class="fas fa-moon" aria-hidden="true"></i>
+                        </button>
+                        <div class="user-profile">
+                            <div class="avatar" id="userAvatar">JD</div>
+                            <span id="userName">John Doe</span>
+                            <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <aside class="sidebar">
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link active" data-section="dashboard">
+                            <i class="fas fa-home" aria-hidden="true"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link" data-section="applicants">
+                            <i class="fas fa-users" aria-hidden="true"></i>
+                            <span>Applicants</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link" data-section="employees">
+                            <i class="fas fa-user-tie" aria-hidden="true"></i>
+                            <span>Employees</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link" data-section="performance">
+                            <i class="fas fa-chart-line" aria-hidden="true"></i>
+                            <span>Performance</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link" data-section="analytics">
+                            <i class="fas fa-chart-bar" aria-hidden="true"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link" data-section="recruitment">
+                            <i class="fas fa-handshake" aria-hidden="true"></i>
+                            <span>Recruitment</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link" data-section="calendar">
+                            <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                            <span>Calendar</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link" data-section="reports">
+                            <i class="fas fa-file-alt" aria-hidden="true"></i>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link" data-section="settings">
+                            <i class="fas fa-cog" aria-hidden="true"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link" data-section="chat">
+                            <i class="fas fa-comments" aria-hidden="true"></i>
+                            <span>Messages</span>
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+
+            <main class="dashboard">
+                <!-- Dashboard Section -->
+                <section id="dashboardSection" class="role-section active-section">
+                    <div class="dashboard-header">
+                        <h1 class="dashboard-title">Dashboard</h1>
+                        <div class="dashboard-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-download" aria-hidden="true"></i> Export Report
+                            </button>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-plus" aria-hidden="true"></i> Add New
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="cards-grid">
+                        <div class="card glass">
+                            <div class="card-header">
+                                <h2 class="card-title">Total Applicants</h2>
+                                <div class="card-icon">
+                                    <i class="fas fa-users" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="card-value">247</div>
+                            <div class="card-text">+12% from last month</div>
+                        </div>
+                        <div class="card glass">
+                            <div class="card-header">
+                                <h2 class="card-title">Employees</h2>
+                                <div class="card-icon">
+                                    <i class="fas fa-user-tie" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="card-value">156</div>
+                            <div class="card-text">+5 new hires this month</div>
+                        </div>
+                        <div class="card glass">
+                            <div class="card-header">
+                                <h2 class="card-title">Open Positions</h2>
+                                <div class="card-icon">
+                                    <i class="fas fa-briefcase" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="card-value">18</div>
+                            <div class="card-text">5 urgent hires</div>
+                        </div>
+                        <div class="card glass">
+                            <div class="card-header">
+                                <h2 class="card-title">Avg. Performance</h2>
+                                <div class="card-icon">
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="card-value">4.2<span class="text-muted text-small">/5</span></div>
+                            <div class="card-text">+0.3 from last quarter</div>
+                        </div>
+                    </div>
+
+                    <div class="charts-container">
+                        <div class="chart-card">
+                            <h3 class="chart-title">Applicant Funnel</h3>
+                            <canvas id="funnelChart" aria-label="Applicant funnel chart showing progression from applied to hired"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3 class="chart-title">Employee Performance</h3>
+                            <canvas id="performanceChart" aria-label="Employee performance trend chart over last six months"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Position</th>
+                                    <th>Status</th>
+                                    <th>Applied Date</th>
+                                    <th>AI Score</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Sarah Johnson</td>
+                                    <td>Senior Developer</td>
+                                    <td><span class="status status-success">Shortlisted</span></td>
+                                    <td>Jun 12, 2023</td>
+                                    <td>92%</td>
+                                    <td>
+                                        <button class="btn btn-outline btn-small">
+                                            <i class="fas fa-eye" aria-hidden="true"></i> View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Michael Chen</td>
+                                    <td>Product Manager</td>
+                                    <td><span class="status status-warning">Interview</span></td>
+                                    <td>Jun 10, 2023</td>
+                                    <td>87%</td>
+                                    <td>
+                                        <button class="btn btn-outline btn-small">
+                                            <i class="fas fa-eye" aria-hidden="true"></i> View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Emily Rodriguez</td>
+                                    <td>UX Designer</td>
+                                    <td><span class="status status-danger">Rejected</span></td>
+                                    <td>Jun 5, 2023</td>
+                                    <td>63%</td>
+                                    <td>
+                                        <button class="btn btn-outline btn-small">
+                                            <i class="fas fa-eye" aria-hidden="true"></i> View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>David Kim</td>
+                                    <td>Data Scientist</td>
+                                    <td><span class="status status-success">Hired</span></td>
+                                    <td>May 28, 2023</td>
+                                    <td>95%</td>
+                                    <td>
+                                        <button class="btn btn-outline btn-small">
+                                            <i class="fas fa-eye" aria-hidden="true"></i> View
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Applicants Section -->
+                <section id="applicantsSection" class="role-section">
+                    <div class="dashboard-header">
+                        <h1 class="dashboard-title">Applicant Management</h1>
+                        <div class="dashboard-actions">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-plus" aria-hidden="true"></i> New Applicant
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="cards-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Resume Screening</h2>
+                                <div class="card-icon card-icon-info">
+                                    <i class="fas fa-file-alt" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="card-value">AI Analysis</div>
+                            <div class="card-text">Powered by Gemini AI</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Interview Scheduling</h2>
+                                <div class="card-icon card-icon-success">
+                                    <i class="fas fa-calendar-check" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="card-value">Google Calendar</div>
+                            <div class="card-text">Integrated scheduling</div>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Candidate</th>
+                                    <th>AI Score</th>
+                                    <th>Skills Match</th>
+                                    <th>Experience</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="user-with-avatar">
+                                            <div class="avatar avatar-small">SJ</div>
+                                            Sarah Johnson
+                                        </div>
+                                    </td>
+                                    <td>92%</td>
+                                    <td>Python, React, AWS</td>
+                                    <td>5 years</td>
+                                    <td><span class="status status-success">Shortlisted</span></td>
+                                    <td>
+                                        <button class="btn btn-outline btn-small">
+                                            <i class="fas fa-calendar" aria-hidden="true"></i> Schedule
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="user-with-avatar">
+                                            <div class="avatar avatar-small">MC</div>
+                                            Michael Chen
+                                        </div>
+                                    </td>
+                                    <td>87%</td>
+                                    <td>Product Strategy, Agile</td>
+                                    <td>7 years</td>
+                                    <td><span class="status status-warning">Interview</span></td>
+                                    <td>
+                                        <button class="btn btn-outline btn-small">
+                                            <i class="fas fa-comment" aria-hidden="true"></i> Feedback
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Employees Section -->
+                <section id="employeesSection" class="role-section">
+                    <div class="dashboard-header">
+                        <h1 class="dashboard-title">Employee Management</h1>
+                        <div class="dashboard-actions">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-plus" aria-hidden="true"></i> Add Employee
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="cards-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Top Performers</h2>
+                                <div class="card-icon card-icon-success">
+                                    <i class="fas fa-trophy" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="card-value">24</div>
+                            <div class="card-text">Employees with 4.5+ stars</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Needs Improvement</h2>
+                                <div class="card-icon card-icon-warning">
+                                    <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="card-value">8</div>
+                            <div class="card-text">Below 3.0 star rating</div>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Employee</th>
+                                    <th>Designation</th>
+                                    <th>Department</th>
+                                    <th>Current Project</th>
+                                    <th>Performance</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="user-with-avatar">
+                                            <div class="avatar avatar-small">RJ</div>
+                                            Robert Johnson
+                                        </div>
+                                    </td>
+                                    <td>Senior Developer</td>
+                                    <td>Engineering</td>
+                                    <td>IntelliHire Platform</td>
+                                    <td>
+                                        <div class="star-rating">
+                                            <i class="fas fa-star" aria-hidden="true"></i>
+                                            <i class="fas fa-star" aria-hidden="true"></i>
+                                            <i class="fas fa-star" aria-hidden="true"></i>
+                                            <i class="fas fa-star" aria-hidden="true"></i>
+                                            <i class="fas fa-star-half-alt" aria-hidden="true"></i>
+                                            <span class="text-muted">4.5</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-outline btn-small">
+                                            <i class="fas fa-chart-line" aria-hidden="true"></i> Review
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="user-with-avatar">
+                                            <div class="avatar avatar-small">AW</div>
+                                            Amanda Wilson
+                                        </div>
+                                    </td>
+                                    <td>Product Manager</td>
+                                    <td>Product</td>
+                                    <td>AI Recruitment Features</td>
+                                    <td>
+                                        <div class="star-rating">
+                                            <i class="fas fa-star" aria-hidden="true"></i>
+                                            <i class="fas fa-star" aria-hidden="true"></i>
+                                            <i class="fas fa-star" aria-hidden="true"></i>
+                                            <i class="fas fa-star" aria-hidden="true"></i>
+                                            <i class="fas fa-star" aria-hidden="true"></i>
+                                            <span class="text-muted">5.0</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-outline btn-small">
+                                            <i class="fas fa-chart-line" aria-hidden="true"></i> Review
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Performance Section -->
+                <section id="performanceSection" class="role-section">
+                    <div class="dashboard-header">
+                        <h1 class="dashboard-title">Performance Management</h1>
+                        <div class="dashboard-actions">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-plus" aria-hidden="true"></i> New Review
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="cards-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Avg. Rating</h2>
+                                <div class="card-icon card-icon-info">
+                                    <i class="fas fa-star" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="card-value">4.2<span class="text-muted text-small">/5</span></div>
+                            <div class="card-text">Company Average</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Reviews This Quarter</h2>
+                                <div class="card-icon card-icon-success">
+                                    <i class="fas fa-clipboard-check" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="card-value">142</div>
+                            <div class="card-text">87% completed</div>
+                        </div>
+                    </div>
+
+                    <div class="charts-container">
+                        <div class="chart-card">
+                            <h3 class="chart-title">Performance Distribution</h3>
+                            <canvas id="distributionChart" aria-label="Performance distribution chart showing star ratings across employees"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3 class="chart-title">Department Comparison</h3>
+                            <canvas id="departmentChart" aria-label="Department comparison chart showing average ratings by department"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Analytics Section -->
+                <section id="analyticsSection" class="role-section">
+                    <div class="dashboard-header">
+                        <h1 class="dashboard-title">HR Analytics</h1>
+                        <div class="dashboard-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-download" aria-hidden="true"></i> Export Data
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="cards-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Time to Hire</h2>
+                                <div class="card-icon card-icon-info">
+                                    <i class="fas fa-clock" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="card-value">24 days</div>
+                            <div class="card-text">Industry avg: 32 days</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Retention Rate</h2>
+                                <div class="card-icon card-icon-success">
+                                    <i class="fas fa-user-check" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="card-value">94%</div>
+                            <div class="card-text">+2% from last year</div>
+                        </div>
+                    </div>
+
+                    <div class="charts-container">
+                        <div class="chart-card">
+                            <h3 class="chart-title">Hiring Trends</h3>
+                            <canvas id="hiringChart" aria-label="Hiring trends chart showing quarterly hiring numbers"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3 class="chart-title">Employee Satisfaction</h3>
+                            <canvas id="satisfactionChart" aria-label="Employee satisfaction metrics across different categories"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Recruitment Section -->
+                <section id="recruitmentSection" class="role-section">
+                    <div class="dashboard-header">
+                        <h1 class="dashboard-title">Recruitment Center</h1>
+                        <div class="dashboard-actions">
+                            <button class="btn btn-primary" id="createJobBtn">
+                                <i class="fas fa-plus" aria-hidden="true"></i> Create Job Posting
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="cards-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Active Job Postings</h2>
+                                <div class="card-icon">
+                                    <i class="fas fa-briefcase" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="card-value">12</div>
+                            <div class="card-text">3 urgent positions</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Applications This Week</h2>
+                                <div class="card-icon card-icon-success">
+                                    <i class="fas fa-file-alt" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="card-value">47</div>
+                            <div class="card-text">+8 from last week</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Interview Scheduled</h2>
+                                <div class="card-icon card-icon-warning">
+                                    <i class="fas fa-calendar" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="card-value">15</div>
+                            <div class="card-text">This week</div>
+                        </div>
+                    </div>
+
+                    <div class="jobs-grid">
+                        <div class="job-card">
+                            <div class="job-card-header">
+                                <div>
+                                    <h3 class="job-title">Senior Frontend Developer</h3>
+                                    <div class="job-company">Tech Solutions Inc.</div>
+                                </div>
+                                <div class="text-muted">$95,000 - $120,000</div>
+                            </div>
+                            <div class="job-tags">
+                                <span class="job-tag">React</span>
+                                <span class="job-tag">TypeScript</span>
+                                <span class="job-tag">UI/UX</span>
+                            </div>
+                            <div class="job-description">
+                                We're looking for an experienced Frontend Developer to join our product team. You'll be responsible for building user-facing features and improving our web application.
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill progress-fill-75"></div>
+                            </div>
+                            <div class="text-muted text-xsmall">Application match: 75%</div>
+                            <button class="btn btn-primary btn-full mt-15">
+                                <i class="fas fa-paper-plane" aria-hidden="true"></i> Apply Now
+                            </button>
+                        </div>
+
+                        <div class="job-card">
+                            <div class="job-card-header">
+                                <div>
+                                    <h3 class="job-title">Data Scientist</h3>
+                                    <div class="job-company">Analytics Pro</div>
+                                </div>
+                                <div class="text-muted">$110,000 - $140,000</div>
+                            </div>
+                            <div class="job-tags">
+                                <span class="job-tag">Python</span>
+                                <span class="job-tag">Machine Learning</span>
+                                <span class="job-tag">SQL</span>
+                            </div>
+                            <div class="job-description">
+                                Join our data team to build predictive models and derive insights from large datasets. Experience with TensorFlow or PyTorch is required.
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill progress-fill-60"></div>
+                            </div>
+                            <div class="text-muted text-xsmall">Application match: 60%</div>
+                            <button class="btn btn-primary btn-full mt-15">
+                                <i class="fas fa-paper-plane" aria-hidden="true"></i> Apply Now
+                            </button>
+                        </div>
+
+                        <div class="job-card">
+                            <div class="job-card-header">
+                                <div>
+                                    <h3 class="job-title">Product Manager</h3>
+                                    <div class="job-company">Innovate Labs</div>
+                                </div>
+                                <div class="text-muted">$100,000 - $130,000</div>
+                            </div>
+                            <div class="job-tags">
+                                <span class="job-tag">Strategy</span>
+                                <span class="job-tag">Agile</span>
+                                <span class="job-tag">UX Research</span>
+                            </div>
+                            <div class="job-description">
+                                We need a Product Manager to lead our flagship product development. You'll work with engineering, design, and marketing teams to deliver exceptional products.
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill progress-fill-85"></div>
+                            </div>
+                            <div class="text-muted text-xsmall">Application match: 85%</div>
+                            <button class="btn btn-primary btn-full mt-15">
+                                <i class="fas fa-paper-plane" aria-hidden="true"></i> Apply Now
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Calendar Section -->
+                <section id="calendarSection" class="role-section">
+                    <div class="dashboard-header">
+                        <h1 class="dashboard-title">Company Calendar</h1>
+                        <div class="dashboard-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-chevron-left" aria-hidden="true"></i> Previous
+                            </button>
+                            <button class="btn btn-outline">
+                                Today
+                            </button>
+                            <button class="btn btn-outline">
+                                Next <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                            </button>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-plus" aria-hidden="true"></i> Add Event
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <h2>June 2023</h2>
+                            <div class="dashboard-actions">
+                                <button class="btn btn-outline">
+                                    <i class="fas fa-list" aria-hidden="true"></i> List View
+                                </button>
+                                <button class="btn btn-outline">
+                                    <i class="fas fa-calendar" aria-hidden="true"></i> Month View
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="calendar-grid">
+                            <div class="calendar-day">Sun</div>
+                            <div class="calendar-day">Mon</div>
+                            <div class="calendar-day">Tue</div>
+                            <div class="calendar-day">Wed</div>
+                            <div class="calendar-day">Thu</div>
+                            <div class="calendar-day">Fri</div>
+                            <div class="calendar-day">Sat</div>
+
+                            <!-- Calendar dates would be generated dynamically in a real app -->
+                            <div class="calendar-date">28</div>
+                            <div class="calendar-date">29</div>
+                            <div class="calendar-date">30</div>
+                            <div class="calendar-date">31</div>
+                            <div class="calendar-date">1</div>
+                            <div class="calendar-date">2</div>
+                            <div class="calendar-date">3</div>
+                            <div class="calendar-date">4</div>
+                            <div class="calendar-date">5</div>
+                            <div class="calendar-date">6</div>
+                            <div class="calendar-date">7</div>
+                            <div class="calendar-date">8</div>
+                            <div class="calendar-date">9</div>
+                            <div class="calendar-date">10</div>
+                            <div class="calendar-date">11</div>
+                            <div class="calendar-date">12</div>
+                            <div class="calendar-date has-event">13</div>
+                            <div class="calendar-date">14</div>
+                            <div class="calendar-date">15</div>
+                            <div class="calendar-date has-event">16</div>
+                            <div class="calendar-date">17</div>
+                            <div class="calendar-date">18</div>
+                            <div class="calendar-date active">19</div>
+                            <div class="calendar-date">20</div>
+                            <div class="calendar-date has-event">21</div>
+                            <div class="calendar-date">22</div>
+                            <div class="calendar-date">23</div>
+                            <div class="calendar-date">24</div>
+                            <div class="calendar-date">25</div>
+                            <div class="calendar-date">26</div>
+                            <div class="calendar-date">27</div>
+                            <div class="calendar-date">28</div>
+                            <div class="calendar-date">29</div>
+                            <div class="calendar-date">30</div>
+                            <div class="calendar-date">1</div>
+                            <div class="calendar-date">2</div>
+                        </div>
+                    </div>
+
+                    <div class="table-container mt-20">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Event</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Attendees</th>
+                                    <th>Location</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Quarterly Planning Meeting</td>
+                                    <td>Jun 13, 2023</td>
+                                    <td>10:00 AM - 12:00 PM</td>
+                                    <td>Management Team</td>
+                                    <td>Conference Room A</td>
+                                </tr>
+                                <tr>
+                                    <td>Technical Interviews</td>
+                                    <td>Jun 16, 2023</td>
+                                    <td>9:00 AM - 5:00 PM</td>
+                                    <td>HR, Tech Leads</td>
+                                    <td>Interview Room 2</td>
+                                </tr>
+                                <tr>
+                                    <td>Product Launch</td>
+                                    <td>Jun 21, 2023</td>
+                                    <td>2:00 PM - 4:00 PM</td>
+                                    <td>All Employees</td>
+                                    <td>Main Auditorium</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Reports Section -->
+                <section id="reportsSection" class="role-section">
+                    <div class="dashboard-header">
+                        <h1 class="dashboard-title">Reports & Analytics</h1>
+                        <div class="dashboard-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-file-pdf" aria-hidden="true"></i> Export PDF
+                            </button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-file-csv" aria-hidden="true"></i> Export CSV
+                            </button>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-sync" aria-hidden="true"></i> Refresh Data
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="cards-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Monthly Recruitment Report</h2>
+                                <div class="card-icon">
+                                    <i class="fas fa-users" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="card-text">June 2023</div>
+                            <button class="btn btn-outline btn-full mt-15">
+                                <i class="fas fa-download" aria-hidden="true"></i> Download
+                            </button>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Employee Performance Review</h2>
+                                <div class="card-icon card-icon-success">
+                                    <i class="fas fa-chart-line" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="card-text">Q2 2023 Summary</div>
+                            <button class="btn btn-outline btn-full mt-15">
+                                <i class="fas fa-download" aria-hidden="true"></i> Download
+                            </button>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Attendance Report</h2>
+                                <div class="card-icon card-icon-info">
+                                    <i class="fas fa-calendar-check" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="card-text">May 2023</div>
+                            <button class="btn btn-outline btn-full mt-15">
+                                <i class="fas fa-download" aria-hidden="true"></i> Download
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="charts-container">
+                        <div class="chart-card">
+                            <h3 class="chart-title">Recruitment Source Effectiveness</h3>
+                            <canvas id="recruitmentSourceChart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3 class="chart-title">Employee Turnover Rate</h3>
+                            <canvas id="turnoverChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Report Name</th>
+                                    <th>Type</th>
+                                    <th>Generated Date</th>
+                                    <th>Size</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Monthly_Hiring_Report_June_2023.pdf</td>
+                                    <td>Recruitment</td>
+                                    <td>Jun 30, 2023</td>
+                                    <td>2.4 MB</td>
+                                    <td>
+                                        <button class="btn btn-outline btn-small">
+                                            <i class="fas fa-download" aria-hidden="true"></i> Download
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Employee_Performance_Q2_2023.pdf</td>
+                                    <td>Performance</td>
+                                    <td>Jun 28, 2023</td>
+                                    <td>3.1 MB</td>
+                                    <td>
+                                        <button class="btn btn-outline btn-small">
+                                            <i class="fas fa-download" aria-hidden="true"></i> Download
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Attendance_Report_May_2023.csv</td>
+                                    <td>Attendance</td>
+                                    <td>Jun 1, 2023</td>
+                                    <td>1.2 MB</td>
+                                    <td>
+                                        <button class="btn btn-outline btn-small">
+                                            <i class="fas fa-download" aria-hidden="true"></i> Download
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settingsSection" class="role-section">
+                    <div class="dashboard-header">
+                        <h1 class="dashboard-title">System Settings</h1>
+                        <div class="dashboard-actions">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-save" aria-hidden="true"></i> Save Changes
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="cards-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Company Information</h2>
+                                <div class="card-icon">
+                                    <i class="fas fa-building" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Company Name</label>
+                                <input type="text" class="form-control" value="IntelliHire Solutions">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Industry</label>
+                                <input type="text" class="form-control" value="HR Technology">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Company Size</label>
+                                <select class="form-control">
+                                    <option>1-50 employees</option>
+                                    <option selected>51-200 employees</option>
+                                    <option>201-500 employees</option>
+                                    <option>501-1000 employees</option>
+                                    <option>1000+ employees</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Notification Settings</h2>
+                                <div class="card-icon card-icon-info">
+                                    <i class="fas fa-bell" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="form-group form-flex">
+                                <label class="form-label">Email Notifications</label>
+                                <input type="checkbox" checked>
+                            </div>
+                            <div class="form-group form-flex">
+                                <label class="form-label">Push Notifications</label>
+                                <input type="checkbox" checked>
+                            </div>
+                            <div class="form-group form-flex">
+                                <label class="form-label">SMS Alerts</label>
+                                <input type="checkbox">
+                            </div>
+                            <div class="form-group form-flex">
+                                <label class="form-label">Weekly Reports</label>
+                                <input type="checkbox" checked>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">Security Settings</h2>
+                                <div class="card-icon card-icon-warning">
+                                    <i class="fas fa-shield-alt" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Two-Factor Authentication</label>
+                                <select class="form-control">
+                                    <option>Disabled</option>
+                                    <option selected>Enabled</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Session Timeout</label>
+                                <select class="form-control">
+                                    <option>15 minutes</option>
+                                    <option>30 minutes</option>
+                                    <option selected>1 hour</option>
+                                    <option>2 hours</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-outline btn-full">
+                                <i class="fas fa-key" aria-hidden="true"></i> Change Password
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card mt-20">
+                        <div class="card-header">
+                            <h2 class="card-title">Integration Settings</h2>
+                            <div class="card-icon card-icon-success">
+                                <i class="fas fa-plug" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div class="form-group form-flex">
+                            <label class="form-label">Google Calendar Integration</label>
+                            <input type="checkbox" checked>
+                        </div>
+                        <div class="form-group form-flex">
+                            <label class="form-label">Slack Integration</label>
+                            <input type="checkbox" checked>
+                        </div>
+                        <div class="form-group form-flex">
+                            <label class="form-label">Zoom Integration</label>
+                            <input type="checkbox">
+                        </div>
+                        <div class="form-group form-flex">
+                            <label class="form-label">LinkedIn Integration</label>
+                            <input type="checkbox" checked>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Chat Section -->
+                <section id="chatSection" class="role-section">
+                    <div class="dashboard-header">
+                        <h1 class="dashboard-title">Messages & Communication</h1>
+                        <div class="dashboard-actions">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-plus" aria-hidden="true"></i> New Conversation
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="chat-system">
+                        <div class="chat-contacts">
+                            <div class="chat-contact active">
+                                <div class="avatar avatar-small">HR</div>
+                                <div>
+                                    <div>HR Department</div>
+                                    <div class="text-muted text-xsmall">Hey, when is our next meeting?</div>
+                                </div>
+                            </div>
+                            <div class="chat-contact">
+                                <div class="avatar avatar-small">JS</div>
+                                <div>
+                                    <div>John Smith (CEO)</div>
+                                    <div class="text-muted text-xsmall">Please review the Q2 reports</div>
+                                </div>
+                            </div>
+                            <div class="chat-contact">
+                                <div class="avatar avatar-small">TD</div>
+                                <div>
+                                    <div>Tech Department</div>
+                                    <div class="text-muted text-xsmall">System maintenance scheduled</div>
+                                </div>
+                            </div>
+                            <div class="chat-contact">
+                                <div class="avatar avatar-small">SJ</div>
+                                <div>
+                                    <div>Sarah Johnson</div>
+                                    <div class="text-muted text-xsmall">Thanks for the opportunity!</div>
+                                </div>
+                            </div>
+                            <div class="chat-contact">
+                                <div class="avatar avatar-small">MC</div>
+                                <div>
+                                    <div>Michael Chen</div>
+                                    <div class="text-muted text-xsmall">Looking forward to the interview</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-main">
+                            <div class="chat-header">
+                                <div class="user-with-avatar">
+                                    <div class="avatar avatar-small">HR</div>
+                                    <div>
+                                        <div>HR Department</div>
+                                        <div class="text-muted text-xsmall">Online</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chat-messages">
+                                <div class="message message-bot">
+                                    Hello! How can I help you with your HR needs today?
+                                </div>
+                                <div class="message message-user">
+                                    I wanted to check the status of my job application.
+                                </div>
+                                <div class="message message-bot">
+                                    Your application is currently under review by our hiring team. We should have an update for you within 3-5 business days.
+                                </div>
+                                <div class="message message-user">
+                                    Thank you for the update. Is there anything else I need to submit?
+                                </div>
+                                <div class="message message-bot">
+                                    Not at this time. We'll contact you if we need any additional information. Would you like to schedule a preliminary call with one of our recruiters?
+                                </div>
+                            </div>
+                            <div class="chat-input-area">
+                                <input type="text" class="chat-input" placeholder="Type your message...">
+                                <button class="chat-send-btn">
+                                    <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- AI Chatbot -->
+        <div class="chatbot-container">
+            <button class="chatbot-toggle" id="chatbotToggle" aria-label="Open AI assistant chat">
+                <i class="fas fa-robot" aria-hidden="true"></i>
+            </button>
+            <div class="chatbot-window" id="chatbotWindow">
+                <div class="chatbot-header">
+                    <div class="chatbot-title">IntelliHire AI Assistant</div>
+                    <button class="chatbot-close" id="chatbotClose" aria-label="Close chat">
+                        <i class="fas fa-times" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="chatbot-messages" id="chatbotMessages">
+                    <div class="message message-bot">
+                        Hello! I'm your IntelliHire AI assistant. How can I help you with recruitment or employee management today?
+                    </div>
+                </div>
+                <div class="chatbot-input">
+                    <input type="text" id="chatbotInput" placeholder="Ask me anything..." aria-label="Type your message">
+                    <button id="chatbotSend" aria-label="Send message">
+                        <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            themeToggle.innerHTML = isDarkMode 
+                ? '<i class="fas fa-sun" aria-hidden="true"></i>' 
+                : '<i class="fas fa-moon" aria-hidden="true"></i>';
+            themeToggle.setAttribute('aria-label', isDarkMode ? 'Switch to light mode' : 'Switch to dark mode');
+        });
+
+        // Role Selection
+        const roleOptions = document.querySelectorAll('.role-option');
+        let selectedRole = 'hr';
+        
+        roleOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                roleOptions.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                selectedRole = option.getAttribute('data-role');
+            });
+
+            // Add keyboard support for role options
+            option.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    roleOptions.forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                    selectedRole = option.getAttribute('data-role');
+                }
+            });
+        });
+
+        // Login Form
+        const loginForm = document.getElementById('loginForm');
+        const loginPage = document.getElementById('loginPage');
+        const app = document.getElementById('app');
+        const userName = document.getElementById('userName');
+        const userAvatar = document.getElementById('userAvatar');
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Set user data based on role
+            let name, avatar;
+            switch(selectedRole) {
+                case 'candidate':
+                    name = 'Sarah Johnson';
+                    avatar = 'SJ';
+                    break;
+                case 'employee':
+                    name = 'Robert Wilson';
+                    avatar = 'RW';
+                    break;
+                case 'hr':
+                    name = 'Jennifer Lopez';
+                    avatar = 'JL';
+                    break;
+                case 'ceo':
+                    name = 'Michael Scott';
+                    avatar = 'MS';
+                    break;
+            }
+            
+            userName.textContent = name;
+            userAvatar.textContent = avatar;
+            
+            // Show main app, hide login
+            loginPage.style.display = 'none';
+            app.style.display = 'block';
+            
+            // Initialize charts
+            initializeCharts();
+        });
+
+        // Section Navigation
+        const navLinks = document.querySelectorAll('.nav-links a, .sidebar-link');
+        const sections = document.querySelectorAll('.role-section');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Update active nav link
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                link.classList.add('active');
+                
+                // Show selected section
+                const sectionId = link.getAttribute('data-section') + 'Section';
+                sections.forEach(section => {
+                    section.classList.remove('active-section');
+                    if (section.id === sectionId) {
+                        section.classList.add('active-section');
+                    }
+                });
+            });
+        });
+
+        // Chatbot Toggle
+        const chatbotToggle = document.getElementById('chatbotToggle');
+        const chatbotWindow = document.getElementById('chatbotWindow');
+        const chatbotClose = document.getElementById('chatbotClose');
+        const chatbotSend = document.getElementById('chatbotSend');
+        const chatbotInput = document.getElementById('chatbotInput');
+        const chatbotMessages = document.getElementById('chatbotMessages');
+
+        chatbotToggle.addEventListener('click', () => {
+            const isVisible = chatbotWindow.style.display === 'flex';
+            chatbotWindow.style.display = isVisible ? 'none' : 'flex';
+            if (!isVisible) {
+                chatbotInput.focus();
+            }
+        });
+
+        chatbotClose.addEventListener('click', () => {
+            chatbotWindow.style.display = 'none';
+        });
+
+        chatbotSend.addEventListener('click', sendMessage);
+        chatbotInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        function sendMessage() {
+            const message = chatbotInput.value.trim();
+            if (message === '') return;
+            
+            // Add user message
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message message-user';
+            userMessage.textContent = message;
+            chatbotMessages.appendChild(userMessage);
+            
+            // Clear input
+            chatbotInput.value = '';
+            
+            // Scroll to bottom
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            
+            // Simulate AI response
+            setTimeout(() => {
+                const botMessage = document.createElement('div');
+                botMessage.className = 'message message-bot';
+                
+                // Simple response logic based on keywords
+                if (message.toLowerCase().includes('applicant') || message.toLowerCase().includes('candidate')) {
+                    botMessage.textContent = "I can help you with applicant tracking. We currently have 247 active applicants, with 42 in the interview stage. Would you like me to show you the top candidates?";
+                } else if (message.toLowerCase().includes('employee') || message.toLowerCase().includes('performance')) {
+                    botMessage.textContent = "Our employee performance metrics are looking strong this quarter. The average rating is 4.2 stars, with 24 top performers. Would you like a detailed breakdown?";
+                } else if (message.toLowerCase().includes('schedule') || message.toLowerCase().includes('interview')) {
+                    botMessage.textContent = "I can help schedule interviews. I'm integrated with Google Calendar for seamless scheduling. Which candidate would you like to schedule an interview with?";
+                } else if (message.toLowerCase().includes('report') || message.toLowerCase().includes('analytics')) {
+                    botMessage.textContent = "I can generate HR analytics reports for you. We have export options for PDF and CSV. Which metrics are you most interested in?";
+                } else {
+                    botMessage.textContent = "I understand you're asking about: '" + message + "'. As your IntelliHire AI assistant, I can help with applicant tracking, employee performance, interview scheduling, and HR analytics. How can I assist you specifically?";
+                }
+                
+                chatbotMessages.appendChild(botMessage);
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            }, 1000);
+        }
+
+        // Chat System
+        const chatContacts = document.querySelectorAll('.chat-contact');
+        const chatSendBtn = document.querySelector('.chat-send-btn');
+        const chatInput = document.querySelector('.chat-input');
+        const chatMessages = document.querySelector('.chat-messages');
+
+        chatContacts.forEach(contact => {
+            contact.addEventListener('click', () => {
+                chatContacts.forEach(c => c.classList.remove('active'));
+                contact.classList.add('active');
+                // In a real app, this would load the conversation history
+            });
+        });
+
+        chatSendBtn.addEventListener('click', sendChatMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendChatMessage();
+        });
+
+        function sendChatMessage() {
+            const message = chatInput.value.trim();
+            if (message === '') return;
+            
+            // Add user message
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message message-user';
+            userMessage.textContent = message;
+            chatMessages.appendChild(userMessage);
+            
+            // Clear input
+            chatInput.value = '';
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Simulate response (in a real app, this would come from the other user)
+            setTimeout(() => {
+                const responseMessage = document.createElement('div');
+                responseMessage.className = 'message message-bot';
+                responseMessage.textContent = "Thanks for your message. I'll get back to you shortly.";
+                chatMessages.appendChild(responseMessage);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
+        }
+
+        // Initialize Charts
+        function initializeCharts() {
+            // Funnel Chart
+            const funnelCtx = document.getElementById('funnelChart').getContext('2d');
+            new Chart(funnelCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Applied', 'Screened', 'Interview', 'Offer', 'Hired'],
+                    datasets: [{
+                        label: 'Applicants',
+                        data: [247, 158, 92, 45, 28],
+                        backgroundColor: [
+                            '#4361ee',
+                            '#3a0ca3',
+                            '#7209b7',
+                            '#f72585',
+                            '#4cc9f0'
+                        ]
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Recruitment Funnel'
+                        }
+                    }
+                }
+            });
+
+            // Performance Chart
+            const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+            new Chart(performanceCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Avg. Performance',
+                        data: [3.8, 4.0, 4.1, 4.2, 4.3, 4.2],
+                        borderColor: '#4361ee',
+                        backgroundColor: 'rgba(67, 97, 238, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Performance Trend'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            min: 3,
+                            max: 5
+                        }
+                    }
+                }
+            });
+
+            // Distribution Chart
+            const distributionCtx = document.getElementById('distributionChart').getContext('2d');
+            new Chart(distributionCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['5 Stars', '4 Stars', '3 Stars', '2 Stars', '1 Star'],
+                    datasets: [{
+                        data: [24, 68, 42, 15, 7],
+                        backgroundColor: [
+                            '#4cc9f0',
+                            '#4361ee',
+                            '#3a0ca3',
+                            '#f72585',
+                            '#7209b7'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+
+            // Department Chart
+            const departmentCtx = document.getElementById('departmentChart').getContext('2d');
+            new Chart(departmentCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Engineering', 'Product', 'Marketing', 'Sales', 'HR'],
+                    datasets: [{
+                        label: 'Avg. Rating',
+                        data: [4.5, 4.3, 4.1, 3.9, 4.2],
+                        backgroundColor: '#4361ee'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            min: 3,
+                            max: 5
+                        }
+                    }
+                }
+            });
+
+            // Hiring Trends Chart
+            const hiringCtx = document.getElementById('hiringChart').getContext('2d');
+            new Chart(hiringCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                    datasets: [{
+                        label: 'Hires',
+                        data: [42, 58, 35, 67],
+                        borderColor: '#4361ee',
+                        backgroundColor: 'rgba(67, 97, 238, 0.1)',
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Quarterly Hiring Trends'
+                        }
+                    }
+                }
+            });
+
+            // Satisfaction Chart
+            const satisfactionCtx = document.getElementById('satisfactionChart').getContext('2d');
+            new Chart(satisfactionCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Engagement', 'Work-Life', 'Compensation', 'Growth', 'Management'],
+                    datasets: [{
+                        label: 'Satisfaction Score',
+                        data: [4.2, 3.8, 4.0, 3.9, 4.1],
+                        backgroundColor: '#4cc9f0'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Employee Satisfaction Metrics'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            min: 3,
+                            max: 5
+                        }
+                    }
+                }
+            });
+
+            // Recruitment Source Chart
+            const recruitmentSourceCtx = document.getElementById('recruitmentSourceChart').getContext('2d');
+            new Chart(recruitmentSourceCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['LinkedIn', 'Company Website', 'Referrals', 'Job Boards', 'Recruitment Agencies'],
+                    datasets: [{
+                        data: [35, 25, 20, 15, 5],
+                        backgroundColor: [
+                            '#4361ee',
+                            '#4cc9f0',
+                            '#3a0ca3',
+                            '#f72585',
+                            '#7209b7'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Recruitment Source Effectiveness'
+                        }
+                    }
+                }
+            });
+
+            // Turnover Chart
+            const turnoverCtx = document.getElementById('turnoverChart').getContext('2d');
+            new Chart(turnoverCtx, {
+                type: 'line',
+                data: {
+                    labels: ['2019', '2020', '2021', '2022', '2023'],
+                    datasets: [{
+                        label: 'Turnover Rate',
+                        data: [15, 12, 10, 8, 6],
+                        borderColor: '#f72585',
+                        backgroundColor: 'rgba(247, 37, 133, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Employee Turnover Rate'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 20
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize with HR role selected
+        document.querySelector('.role-option[data-role="hr"]').classList.add('selected');
+    </script>
+</body>
+</html>
